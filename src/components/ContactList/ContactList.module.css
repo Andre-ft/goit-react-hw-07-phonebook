@@ -1,0 +1,8 @@
+.contactList__item {
+  list-style-type: none;
+}
+
+.deleteButton {
+  width: 50px;
+  margin-left: 5px;
+}
