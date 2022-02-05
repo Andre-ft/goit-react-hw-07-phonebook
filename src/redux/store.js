@@ -18,6 +18,8 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import { setupListeners } from '@reduxjs/toolkit/query';
+import { contactApi } from './contacts/contactsSlice';
 
 // const initialState = {
 //   contacts: {
@@ -26,11 +28,11 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 //   },
 // };
 
-const contactsPersistConfig = {
-  key: 'contacts',
-  storage,
-  blacklist: ['filter'],
-};
+// const contactsPersistConfig = {
+//   key: 'contacts',
+//   storage,
+//   blacklist: ['filter'],
+// };
 
 // const rootReducer = combineReducers({
 //   contacts: persistReducer(persistConfig, contactReducer),
@@ -70,23 +72,37 @@ const contactsPersistConfig = {
 
 // const store = createStore(rootReducer, composeWithDevTools());
 
-const middleware = [
-  ...getDefaultMiddleware({
-    serializableCheck: {
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-    },
-  }),
-  logger,
-];
+// const middleware = [
+//   ...getDefaultMiddleware({
+//     serializableCheck: {
+//       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+//     },
+//   }),
+//   logger,
+// ];
 
-const store = configureStore({
+// const store = configureStore({
+//   reducer: {
+//     contacts: persistReducer(contactsPersistConfig, contactReducer),
+//   },
+//   middleware,
+//   devTools: process.env.NODE_ENV === 'development',
+// });
+
+// const persistor = persistStore(store);
+
+// export default { store, persistor };
+
+export const store = configureStore({
   reducer: {
-    contacts: persistReducer(contactsPersistConfig, contactReducer),
+    // users: usersReducer,
+    [contactApi.reducerPath]: contactApi.reducer,
   },
-  middleware,
-  devTools: process.env.NODE_ENV === 'development',
+  middleware: getDefaultMiddleware => [
+    ...getDefaultMiddleware(),
+    // pokemonApi.middleware,
+    contactApi.middleware,
+  ],
 });
 
-const persistor = persistStore(store);
-
-export default { store, persistor };
+setupListeners(store.dispatch);

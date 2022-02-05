@@ -8,7 +8,8 @@ import shortid from 'shortid';
 import * as actions from './redux/contacts/contacts-actions';
 // import { addContact, deleteContact, changeFilter };
 
-function App({ contacts, filter, addContact, deleteContact }) {
+// function App() {
+export const App = () => {
   // const [contacts, setContacts] = useState([]);
   // const [filter, setFilter] = useState('');
 
@@ -57,26 +58,26 @@ function App({ contacts, filter, addContact, deleteContact }) {
   return (
     <div className={s.App}>
       <h1>Phonebook</h1>
-      <ContactForm />
+      {/* <ContactForm /> */}
 
       <h2>Contacts</h2>
-      <Filter />
+      {/* <Filter /> */}
       <ContactList /*contactList={getVisibleContacts}*/ />
     </div>
   );
-}
+};
 
 // export default App;
 
-const mapStateToProps = state => ({
-  contacts: state.contacts.items,
-  filter: state.contacts.filter,
-});
+// const mapStateToProps = state => ({
+//   contacts: state.contacts.items,
+//   filter: state.contacts.filter,
+// });
 
-const mapDispatchToProps = dispatch => ({
-  addContact: ({ name, number }) =>
-    dispatch(actions.addContact({ name, number })),
-  deleteContact: () => dispatch(actions.deleteContact()),
-});
+// const mapDispatchToProps = dispatch => ({
+//   addContact: ({ name, number }) =>
+//     dispatch(actions.addContact({ name, number })),
+//   deleteContact: () => dispatch(actions.deleteContact()),
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+// export default connect(mapStateToProps, mapDispatchToProps)(App);

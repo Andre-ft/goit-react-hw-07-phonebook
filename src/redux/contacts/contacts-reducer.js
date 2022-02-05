@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { createReducer } from '@reduxjs/toolkit';
 import { addContact, deleteContact, changeFilter } from './contacts-actions';
-import types from './contacts-types';
+// import types from './contacts-types';
 
 // const filter = createReducer('', {
 //   [changeFilter]: (_, { payload }) => payload,

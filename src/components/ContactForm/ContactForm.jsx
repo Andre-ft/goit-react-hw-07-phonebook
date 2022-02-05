@@ -1,20 +1,27 @@
 import React, {  useState } from 'react';
 import shortid from 'shortid';
-import { connect } from 'react-redux';
+import { connect, useSelector, useDispatch } from 'react-redux';
 import s from './ContactForm.module.css';
 import {addContact, deleteContact, changeFilter} from '../../redux/contacts/contacts-actions'
+import { getItems } from '../../redux/contacts/contacts-selectors';
 
-function ContactForm({onSubmit, contactList}) {
+// function ContactForm({ onSubmit, contactList }) {
+export default function ContactForm() {
   // state = {
-  //   name: '',
-  //   number: '',
-  //   btnEnable: true,
-  // };
-
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-  const [btnEnable, setBtnEnable] = useState(true);
-
+    //   name: '',
+    //   number: '',
+    //   btnEnable: true,
+    // };
+    
+    const [name, setName] = useState('');
+    const [number, setNumber] = useState('');
+    const [btnEnable, setBtnEnable] = useState(true);
+    
+  const contactList = useSelector(getItems);
+  
+  const dispatch = useDispatch();
+  const onSubmit = () => dispatch(addContact({ name, number }));
+  
   const nameInputId = shortid.generate();
   const numberInputId = shortid.generate();
 
@@ -52,7 +59,7 @@ function ContactForm({onSubmit, contactList}) {
     e.preventDefault();
 
     onSubmit({name, number});
-
+    
     setName('');
     setNumber('');
   };
@@ -99,15 +106,15 @@ function ContactForm({onSubmit, contactList}) {
 
 // export default ContactForm;
 
-const mapStateToProps = state =>{
- return {
-   contactList: state.contacts.items,
+// const mapStateToProps = state =>{
+//  return {
+//    contactList: state.contacts.items,
 
- }
-}
-const mapDispatchToProps = dispatch => {
-return {
-    onSubmit: ({name, number}) => dispatch(addContact({name, number}))
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
+//  }
+// }
+// const mapDispatchToProps = dispatch => {
+// return {
+//     onSubmit: ({name, number}) => dispatch(addContact({name, number}))
+//   }
+// }
+// export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
