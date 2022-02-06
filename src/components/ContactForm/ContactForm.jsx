@@ -8,24 +8,15 @@ import { useFetchContactsQuery, useCreateContactMutation } from '../../redux/con
 import { Spinner } from '../Spinner/Spinner';
 import  toast, { Toaster }  from 'react-hot-toast';
 
-
-// function ContactForm({ onSubmit, contactList }) {
 export default function ContactForm() {
-  // state = {
-    //   name: '',
-    //   number: '',
-    //   btnEnable: true,
-    // };
+   
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+  const [btnEnable, setBtnEnable] = useState(true);
     
-    const [name, setName] = useState('');
-    const [number, setNumber] = useState('');
-    const [btnEnable, setBtnEnable] = useState(true);
-    
-  // const contactList = useSelector(getItems);
   const { data, isFetching } = useFetchContactsQuery();
   const [createContact, { isLoading, isSuccess }] = useCreateContactMutation();
   
-  // const dispatch = useDispatch();
   const onSubmit = () => createContact({ name, number });
   
   const nameInputId = shortid.generate();
@@ -68,9 +59,7 @@ export default function ContactForm() {
     position: 'top-right',
     style: {
       background: 'lawngreen',
-      // top: 5,
-      // right: 5,
-    },
+     },
   }
 
   const handleSubmit = e => {
@@ -127,18 +116,3 @@ export default function ContactForm() {
       </>
     );
 }
-
-// export default ContactForm;
-
-// const mapStateToProps = state =>{
-//  return {
-//    contactList: state.contacts.items,
-
-//  }
-// }
-// const mapDispatchToProps = dispatch => {
-// return {
-//     onSubmit: ({name, number}) => dispatch(addContact({name, number}))
-//   }
-// }
-// export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
