@@ -7,10 +7,7 @@ import s from './Filter.module.css';
 
 
 export default function Filter() {
-  const { filter, setFilter } = useContext(Context)
-  // const [value, setValue] = useState('')
-  // const value = useSelector(getFilter);
-  // const dispatch = useDispatch();
+  const { filter, setFilter } = useContext(Context);
   const onChange = (e) => setFilter(e.currentTarget.value);
   return (
     <label className={s.filter}>
@@ -19,17 +16,3 @@ export default function Filter() {
     </label>
   );
 };
-
-// export default Filter;
-
-// const mapStateToProps = state => ({
-//   value: state.contacts.filter
-// })
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     onChange: (e)=> dispatch(changeFilter(e.currentTarget.value))
-//   }
-// }
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Filter);
