@@ -6,13 +6,16 @@ import { store } from './redux/store';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
+import ContextProvider from './contexts/Provider';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <ContextProvider>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </ContextProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root'),

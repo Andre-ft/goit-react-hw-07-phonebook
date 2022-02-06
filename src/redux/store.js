@@ -1,23 +1,5 @@
-import { createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import contactReducer from './contacts/contacts-reducer';
-import {
-  configureStore,
-  getDefaultMiddleware,
-  combineReducers,
-} from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
-import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { contactApi } from './contacts/contactsSlice';
 
@@ -95,14 +77,10 @@ import { contactApi } from './contacts/contactsSlice';
 
 export const store = configureStore({
   reducer: {
-    // users: usersReducer,
     [contactApi.reducerPath]: contactApi.reducer,
   },
-  middleware: getDefaultMiddleware => [
-    ...getDefaultMiddleware(),
-    // pokemonApi.middleware,
-    contactApi.middleware,
-  ],
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware().concat(contactApi.middleware),
 });
 
 setupListeners(store.dispatch);

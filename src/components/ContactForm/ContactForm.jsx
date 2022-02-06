@@ -4,6 +4,10 @@ import { connect, useSelector, useDispatch } from 'react-redux';
 import s from './ContactForm.module.css';
 import {addContact, deleteContact, changeFilter} from '../../redux/contacts/contacts-actions'
 import { getItems } from '../../redux/contacts/contacts-selectors';
+import { useFetchContactsQuery, useCreateContactMutation } from '../../redux/contacts/contactsSlice';
+import { Spinner } from '../Spinner/Spinner';
+import  toast, { Toaster }  from 'react-hot-toast';
+
 
 // function ContactForm({ onSubmit, contactList }) {
 export default function ContactForm() {
@@ -17,18 +21,22 @@ export default function ContactForm() {
     const [number, setNumber] = useState('');
     const [btnEnable, setBtnEnable] = useState(true);
     
-  const contactList = useSelector(getItems);
+  // const contactList = useSelector(getItems);
+  const { data, isFetching } = useFetchContactsQuery();
+  const [createContact, { isLoading, isSuccess }] = useCreateContactMutation();
   
-  const dispatch = useDispatch();
-  const onSubmit = () => dispatch(addContact({ name, number }));
+  // const dispatch = useDispatch();
+  const onSubmit = () => createContact({ name, number });
   
   const nameInputId = shortid.generate();
   const numberInputId = shortid.generate();
 
-  const checkName = (name)=> {
-    const check = contactList.find(
+  const checkName = (name) => {
+    
+    const check = data ? data.find(
       contact => contact.name.toLowerCase() === name.toLowerCase(),
-    );
+    ) : false;
+
     if (check) {
       setBtnEnable(false);
       alert(`${name} is already in contacts`);
@@ -55,16 +63,30 @@ export default function ContactForm() {
     }
   };
 
+  const containerStyle = {
+    duration: 3000,
+    position: 'top-right',
+    style: {
+      background: 'lawngreen',
+      // top: 5,
+      // right: 5,
+    },
+  }
+
   const handleSubmit = e => {
     e.preventDefault();
+    toast('Contact added', containerStyle);
 
     onSubmit({name, number});
     
     setName('');
     setNumber('');
+
   };
 
-    return (
+
+    return (<>
+      <Toaster />
       <form className={s.form} onSubmit={handleSubmit}>
         <label htmlFor={nameInputId} className={s.input}>
           Name
@@ -96,11 +118,13 @@ export default function ContactForm() {
         <button
           type="submit"
           className={s.button}
-          disabled={!btnEnable}
+          disabled={!btnEnable || isLoading}
         >
+          {isLoading && <Spinner size={12} />}
           Add contact
         </button>
       </form>
+      </>
     );
 }
 
