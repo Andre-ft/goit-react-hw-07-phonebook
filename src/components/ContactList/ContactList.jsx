@@ -17,13 +17,6 @@ export default function ContactList() {
     );
   };
   
-  // const contactList = useSelector(({ contacts: { filter, items } }) => getVisibleContacts(items, filter));
-  // const contactList = data;
-  // const contactList = getVisibleContacts(data, filter);
-  // const dispatch = useDispatch();
-  // const onDeleteContact = (id) => deleteContact(id);
-  
-
   return (<>
     <ul className={s.contactList__item}>
       {data && getVisibleContacts(data, filter).map((contact) => (
